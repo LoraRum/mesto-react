@@ -1,109 +1,149 @@
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import PopupWithForm from "./PopupWithForm";
+import PopupWithImage from "./PopupWithImage";
+import React, { useState } from 'react';
 
 function App() {
+    const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+    const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+
+    function handleEditProfileClick() {
+        setEditProfilePopupOpen(true);
+    }
+
+    function handleAddPlaceClick() {
+        setAddPlacePopupOpen(true);
+    }
+
+    function handleEditAvatarClick() {
+        setEditAvatarPopupOpen(true);
+    }
     return (
         <div className="body">
             <div className="page">
                 <Header/>
-                <Main/>
+                <Main
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                />
                 <Footer/>
 
+                {isEditAvatarPopupOpen && (
+                    <PopupWithForm
+                    title={'Обновить аватар'}
+                    name={'popup-change-avatar'}
+                    buttonText={'Сохранить'}
+                    isOpen={isEditAvatarPopupOpen}
+                    onClose={() => setEditAvatarPopupOpen(false)}
+                >
+                    {[
+                        <input
+                            className="input input_type_link"
+                            id="avatar"
+                            placeholder="Введите ссылку на аватар"
+                            required
+                            type="url"
+                        />,
+                        <span className="avatar-error popup__input-error"></span>
+                    ]}
+                </PopupWithForm>
+                    )}
 
-                <div className="popup" id="popup-change-avatar">
-                    <div className="popup__container">
-                        <button aria-label="закрыть попап" className="popup__close" type="button"></button>
-                        <div className="popup__content">
-                            <div className="card card_with-shadow form">
-                                <h2 className="form__title">Обновить аватар</h2>
-                                <form className="form__form" noValidate>
-                                    <fieldset className="form__user-info">
-                                        <input className="input input_type_link" id="avatar" name="avatar"
-                                               placeholder="Введите ссылку на аватар"
-                                               required type="url"/>
-                                        <span className="avatar-error popup__input-error"></span>
-                                    </fieldset>
-                                    <button className="form__save" type="submit">Сохранить</button>
-                                </form>
-                            </div>
-                        </div>
+                <PopupWithForm
+                    title={'Вы уверены?'}
+                    name={'popup-delete-card'}
+                    buttonText={'Да'}
+                >
+                    <div>
+                        <input
+                            className="input input_type_link"
+                            id="avatar"
+                            name="avatar"
+                            placeholder="Введите ссылку на аватар"
+                            required
+                            type="url"
+                        />
+                        <span className="avatar-error popup__input-error"></span>
                     </div>
-                </div>
+                </PopupWithForm>
 
-                <div className="popup" id="popup-delete-card">
-                    <div className="popup__container">
-                        <button aria-label="закрыть попап" className="popup__close" type="button"></button>
-                        <div className="popup__content">
-                            <div className="card card_with-shadow form">
-                                <h2 className="form__title">Вы уверены?</h2>
-                                <form className="form__form" id="deleteCardForm" noValidate>
-                                    <button className="form__save" type="submit">Да</button>
-                                </form>
-                            </div>
-                        </div>
+                {isEditProfilePopupOpen && (
+                    <PopupWithForm
+                    title={'Редактировать профиль'}
+                    name={'popup-user-profile'}
+                    buttonText={'Сохранить'}
+                    isOpen={isEditProfilePopupOpen}
+                    onClose={() => setEditProfilePopupOpen(false)}
+                >
+                    <div>
+                        <input
+                            className="input input_type_name"
+                            id="username"
+                            maxLength="40"
+                            minLength="2"
+                            name="username"
+                            placeholder="Имя"
+                            required
+                            type="text"
+                        />
+                        <span className="username-error popup__input-error"></span>
                     </div>
-                </div>
+                    <div>
+                        <input
+                            className="input input_type_about"
+                            id="about"
+                            maxLength="200"
+                            minLength="2"
+                            name="about"
+                            placeholder="О себе"
+                            required
+                            type="text"
+                        />
+                        <span className="about-error popup__input-error"></span>
+                    </div>
+                </PopupWithForm>
+                    )}
 
-                <div className="popup" id="popup-user-profile">
-                    <div className="popup__container">
-                        <button aria-label="закрыть попап" className="popup__close" type="button"></button>
-                        <div className="popup__content">
-                            <div className="card card_with-shadow form">
-                                <h2 className="form__title">Редактировать профиль</h2>
-                                <form className="form__form" id="userForm" noValidate>
-                                    <fieldset className="form__user-info">
-                                        <input className="input input_type_name" id="username" maxLength="40"
-                                               minLength="2"
-                                               name="username" placeholder="Имя" required type="text"/>
-                                        <span className="username-error  popup__input-error"></span>
-                                        <input className="input input_type_about" id="about" maxLength="200"
-                                               minLength="2"
-                                               name="about" placeholder="О себе" required type="text"/>
-                                        <span className="about-error popup__input-error"></span>
-                                    </fieldset>
-                                    <button className="form__save" type="submit">Сохранить</button>
-                                </form>
-                            </div>
-                        </div>
+                {isAddPlacePopupOpen && (
+                    <PopupWithForm
+                    title={'Новое место'}
+                    name={'popup-new-place'}
+                    buttonText={'Создать'}
+                    isOpen={isAddPlacePopupOpen}
+                    onClose={() => setAddPlacePopupOpen(false)}
+                    >
+                    <div>
+                        <input
+                            className="input input_type_name"
+                            id="place-name"
+                            maxLength="30"
+                            minLength="2"
+                            name="name"
+                            placeholder="Название"
+                            required
+                            type="text"
+                        />
+                        <span className="place-name-error popup__input-error"></span>
                     </div>
-                </div>
+                    <div>
+                        <input
+                            className="input input_type_link"
+                            id="link"
+                            name="link"
+                            placeholder="Ссылка на картинку"
+                            required
+                            type="url"
+                        />
+                        <span className="link-error popup__input-error"></span>
+                    </div>
+                </PopupWithForm>
+                    )}
 
-                <div className="popup" id="popup-new-place">
-                    <div className="popup__container">
-                        <button aria-label="закрыть попап" className="popup__close" type="button"></button>
-                        <div className="popup__content">
-                            <div className="card card_with-shadow form">
-                                <h2 className="form__title">Новое место</h2>
-                                <form className="form__form" id="placeForm" noValidate>
-                                    <fieldset className="form__user-info">
-                                        <input className="input input_type_name" id="place-name" maxLength="30"
-                                               minLength="2"
-                                               name="name" placeholder="Название" required type="text"/>
-                                        <span className="place-name-error popup__input-error"></span>
-                                        <input className="input input_type_link" id="link" name="link"
-                                               placeholder="Ссылка на картинку"
-                                               required type="url"/>
-                                        <span className="link-error popup__input-error"></span>
-                                    </fieldset>
-                                    <button className="form__save" type="submit">Создать</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="popup popup_dark" id="popup-fullscreen">
-                    <div className="popup__container">
-                        <button aria-label="закрыть попап" className="popup__close" type="button"></button>
-                        <div className="popup__content">
-                            <figure className="fullscreen-image">
-                                <img alt="" className="fullscreen-image__image" src="src#"/>
-                                <figcaption className="fullscreen-image__text"></figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </div>
+                <PopupWithImage/>
 
                 <template id="card-template">
                     <div className="group card">
@@ -124,5 +164,6 @@ function App() {
         </div>
     );
 }
+
 
 export default App;

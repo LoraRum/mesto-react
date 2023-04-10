@@ -5,6 +5,7 @@ import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
 import React, { useState } from 'react';
 
+
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);

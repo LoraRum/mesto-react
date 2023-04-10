@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../utils/Api";
+import Card from "./Card";
 import pencil from "../images/change.svg";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
@@ -71,26 +72,8 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
             </section>
             <section aria-label="Галерея фотографий" className="groups">
                 {cards.map((card) => (
-                    <div className="group card" key={card._id}>
-                        <img
-                            alt=""
-                            className="group__image"
-                            src={card.link}
-                            style={{ backgroundImage: `url(${card.link})` }}
-                        />
-                        <div className="group__box">
-                            <h2 className="group__text">{card.name}</h2>
-                            <div className="group__likes">
-                                <button
-                                    aria-label="кнопка лайк"
-                                    className="group__like"
-                                    type="button"
-                                ></button>
-                                <span className="group__like-sum">{card.likes.length}</span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                    <Card card={card} />
+                    ))}
             </section>
         </main>
     );

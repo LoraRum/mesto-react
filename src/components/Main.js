@@ -6,6 +6,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
     const [userName, setUserName] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [userAvatar, setUserAvatar] = useState("");
+    const [cards, setCards] = useState([])
 
     useEffect(() => {
         api
@@ -14,6 +15,15 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
                 setUserName(data.name);
                 setUserDescription(data.about);
                 setUserAvatar(data.avatar);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        api
+            .getInitialCards()
+            .then((data) => {
+                setCards(data);
             })
             .catch((error) => {
                 console.log(error);
@@ -59,7 +69,29 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
                     type="button"
                 ></button>
             </section>
-            <section aria-label="Галерея фотографий" className="groups"></section>
+            <section aria-label="Галерея фотографий" className="groups">
+                {cards.map((card) => (
+                    <div className="group card" key={card._id}>
+                        <img
+                            alt=""
+                            className="group__image"
+                            src={card.link}
+                            style={{ backgroundImage: `url(${card.link})` }}
+                        />
+                        <div className="group__box">
+                            <h2 className="group__text">{card.name}</h2>
+                            <div className="group__likes">
+                                <button
+                                    aria-label="кнопка лайк"
+                                    className="group__like"
+                                    type="button"
+                                ></button>
+                                <span className="group__like-sum">{card.likes.length}</span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </section>
         </main>
     );
 }

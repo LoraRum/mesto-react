@@ -7,7 +7,7 @@ function PopupWithForm({title, name, children, buttonText, isOpen, onClose}) {
                 <div className="popup__content">
                     <div className="card card_with-shadow form">
                         <h2 className="form__title">{title}</h2>
-                        <form className="form__form" name={name} noValidate>
+                        <form className="form__form" name={name}>
                             <fieldset className="form__user-info">
                                 {children}
                             </fieldset>

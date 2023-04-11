@@ -6,7 +6,7 @@ function Card({card, onCardClick}) {
     }
 
     return (
-        <div className="group card" key={card._id}>
+        <div className="group card">
             <img
                 alt={card.name}
                 className="group__image"

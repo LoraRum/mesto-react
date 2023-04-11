@@ -1,8 +1,4 @@
 function ImagePopup({card, onClose}) {
-    if (!card) {
-        return null;
-    }
-
     return (
         <div className={`popup popup_dark ${card ? 'popup_opened' : ''}`} id="popup-fullscreen">
             <div className="popup__container">
@@ -15,11 +11,11 @@ function ImagePopup({card, onClose}) {
                 <div className="popup__content">
                     <figure className="fullscreen-image">
                         <img
-                            alt={card.name}
+                            alt={card?.name}
                             className="fullscreen-image__image"
-                            src={card.link}
+                            src={card?.link}
                         />
-                        <figcaption className="fullscreen-image__text">{card.name}</figcaption>
+                        <figcaption className="fullscreen-image__text">{card?.name}</figcaption>
                     </figure>
                 </div>
             </div>

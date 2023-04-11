@@ -27,7 +27,7 @@ function App() {
         setSelectedCard(card);
     }
 
-    function handleCloseAllPopups() {
+    function closeAllPopups() {
         setEditProfilePopupOpen(false);
         setAddPlacePopupOpen(false);
         setEditAvatarPopupOpen(false);
@@ -51,7 +51,7 @@ function App() {
                     name={'popup-change-avatar'}
                     buttonText={'Сохранить'}
                     isOpen={isEditAvatarPopupOpen}
-                    onClose={() => setEditAvatarPopupOpen(false)}
+                    onClose={() => closeAllPopups(false)}
                 >
                     <input
                         className="input input_type_link"
@@ -75,7 +75,7 @@ function App() {
                     name={'popup-user-profile'}
                     buttonText={'Сохранить'}
                     isOpen={isEditProfilePopupOpen}
-                    onClose={() => setEditProfilePopupOpen(false)}
+                    onClose={() => closeAllPopups(false)}
                 >
                     <input
                         className="input input_type_name"
@@ -107,7 +107,7 @@ function App() {
                     name={'popup-new-place'}
                     buttonText={'Создать'}
                     isOpen={isAddPlacePopupOpen}
-                    onClose={() => setAddPlacePopupOpen(false)}
+                    onClose={() => closeAllPopups(false)}
                 >
                     <input
                         className="input input_type_name"
@@ -134,7 +134,7 @@ function App() {
 
                 <ImagePopup
                     card={selectedCard}
-                    onClose={handleCloseAllPopups}
+                    onClose={closeAllPopups}
                 />
             </div>
         </div>

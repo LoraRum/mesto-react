@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import api from "../utils/Api";
 import Card from "./Card";
 import pencil from "../images/change.svg";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
+function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
     const [userName, setUserName] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [userAvatar, setUserAvatar] = useState("");
@@ -41,7 +41,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
                         className="avatar"
                         type="button"
                     >
-                        <img alt="Аватар" className="avatar__image" src={userAvatar} />
+                        <img alt="Аватар" className="avatar__image" src={userAvatar}/>
                         <div className="avatar__dark"></div>
                         <img
                             alt="Изменить аватар"
@@ -72,8 +72,12 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
             </section>
             <section aria-label="Галерея фотографий" className="groups">
                 {cards.map((card) => (
-                    <Card card={card} />
-                    ))}
+                    <Card
+                        key={card._id}
+                        card={card}
+                        onCardClick={onCardClick}
+                    />
+                ))}
             </section>
         </main>
     );

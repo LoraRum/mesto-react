@@ -2,4 +2,5 @@
     margin: 0;
     background-color: #000000;
     overflow: overlay;
+    min-height: 100vh;
 }

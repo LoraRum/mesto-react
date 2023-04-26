@@ -6,6 +6,7 @@ import ImagePopup from "./ImagePopup";
 import React, {useState, useEffect} from 'react';
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
+import EditProfilePopup from "./EditProfilePopup";
 
 
 function App() {
@@ -79,12 +80,23 @@ function App() {
             });
     }
 
+    function handleUpdateUser({ name, about }) {
+        api.updateUserInfo({ name, about })
+            .then((userData) => {
+                setCurrentUser(userData);
+                closeAllPopups();
+            })
+            .catch((error) => {
+                console.log(`Error updating user data: ${error}`);
+            });
+    }
+
 
     return (
         <div className="body">
             <div className="page">
                 <CurrentUserContext.Provider value={currentUser}>
-                    <Header />
+                    <Header/>
                     <Main
                         cards={cards}
                         onEditProfile={handleEditProfileClick}
@@ -96,98 +108,68 @@ function App() {
                         onCardDisLike={handleCardDisLike}
 
                     />
-                <Footer/>
+                    <Footer/>
 
-                <PopupWithForm
-                    title={'Обновить аватар'}
-                    name={'popup-change-avatar'}
-                    buttonText={'Сохранить'}
-                    isOpen={isEditAvatarPopupOpen}
-                    onClose={() => closeAllPopups(false)}
-                >
-                    <input
-                        className="input input_type_link"
-                        id="avatar"
-                        placeholder="Введите ссылку на аватар"
-                        required
-                        type="url"
+                    <PopupWithForm
+                        title={'Обновить аватар'}
+                        name={'popup-change-avatar'}
+                        buttonText={'Сохранить'}
+                        isOpen={isEditAvatarPopupOpen}
+                        onClose={() => closeAllPopups(false)}
+                    >
+                        <input
+                            className="input input_type_link"
+                            id="avatar"
+                            placeholder="Введите ссылку на аватар"
+                            required
+                            type="url"
+                        />
+                        <span className="avatar-error popup__input-error"></span>
+                    </PopupWithForm>
+
+                    <PopupWithForm
+                        title={'Вы уверены?'}
+                        name={'popup-delete-card'}
+                        buttonText={'Да'}
+                    >
+                    </PopupWithForm>
+
+                    <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+
+                    <PopupWithForm
+                        title={'Новое место'}
+                        name={'popup-new-place'}
+                        buttonText={'Создать'}
+                        isOpen={isAddPlacePopupOpen}
+                        onClose={() => closeAllPopups(false)}
+                    >
+                        <input
+                            className="input input_type_name"
+                            id="place-name"
+                            maxLength="30"
+                            minLength="2"
+                            name="name"
+                            placeholder="Название"
+                            required
+                            type="text"
+                        />
+                        <span className="place-name-error popup__input-error"></span>
+
+                        <input
+                            className="input input_type_link"
+                            id="link"
+                            name="link"
+                            placeholder="Ссылка на картинку"
+                            required
+                            type="url"
+                        />
+                        <span className="link-error popup__input-error"></span>
+                    </PopupWithForm>
+
+                    <ImagePopup
+                        card={selectedCard}
+                        onClose={closeAllPopups}
                     />
-                    <span className="avatar-error popup__input-error"></span>
-                </PopupWithForm>
-
-                <PopupWithForm
-                    title={'Вы уверены?'}
-                    name={'popup-delete-card'}
-                    buttonText={'Да'}
-                >
-                </PopupWithForm>
-
-                <PopupWithForm
-                    title={'Редактировать профиль'}
-                    name={'popup-user-profile'}
-                    buttonText={'Сохранить'}
-                    isOpen={isEditProfilePopupOpen}
-                    onClose={() => closeAllPopups(false)}
-                >
-                    <input
-                        className="input input_type_name"
-                        id="username"
-                        maxLength="40"
-                        minLength="2"
-                        name="username"
-                        placeholder="Имя"
-                        required
-                        type="text"
-                    />
-                    <span className="username-error popup__input-error"></span>
-
-                    <input
-                        className="input input_type_about"
-                        id="about"
-                        maxLength="200"
-                        minLength="2"
-                        name="about"
-                        placeholder="О себе"
-                        required
-                        type="text"
-                    />
-                    <span className="about-error popup__input-error"></span>
-                </PopupWithForm>
-
-                <PopupWithForm
-                    title={'Новое место'}
-                    name={'popup-new-place'}
-                    buttonText={'Создать'}
-                    isOpen={isAddPlacePopupOpen}
-                    onClose={() => closeAllPopups(false)}
-                >
-                    <input
-                        className="input input_type_name"
-                        id="place-name"
-                        maxLength="30"
-                        minLength="2"
-                        name="name"
-                        placeholder="Название"
-                        required
-                        type="text"
-                    />
-                    <span className="place-name-error popup__input-error"></span>
-
-                    <input
-                        className="input input_type_link"
-                        id="link"
-                        name="link"
-                        placeholder="Ссылка на картинку"
-                        required
-                        type="url"
-                    />
-                    <span className="link-error popup__input-error"></span>
-                </PopupWithForm>
-
-                <ImagePopup
-                    card={selectedCard}
-                    onClose={closeAllPopups}
-                />
                 </CurrentUserContext.Provider>
             </div>
         </div>

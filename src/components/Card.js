@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Card({ card, onCardClick, onCardLike, onCardDisLike, onCardDelete }) {
+function Card({card, onCardClick, onCardLike, onCardDisLike, onCardDelete}) {
     const currentUser = useContext(CurrentUserContext);
-
     const isOwn = card.owner._id === currentUser._id;
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(user => user._id === currentUser._id);
     const cardLikeButtonClassName = `group__like ${isLiked ? 'group__like_active' : ''}`;
 
     function handleClick() {
@@ -17,11 +16,11 @@ function Card({ card, onCardClick, onCardLike, onCardDisLike, onCardDelete }) {
     }
 
     function handleLikeClick() {
-        onCardLike(card);
-    }
-
-    function handleDisLikeClick() {
-        onCardDisLike(card);
+        if (isLiked) {
+            onCardDisLike(card);
+        } else  {
+            onCardLike(card);
+        }
     }
 
     return (
@@ -40,7 +39,6 @@ function Card({ card, onCardClick, onCardLike, onCardDisLike, onCardDelete }) {
                         className={cardLikeButtonClassName}
                         type="button"
                         onClick={handleLikeClick}
-                        onClick={handleDisLikeClick}
                     ></button>
                     <span className="group__like-sum">{card.likes.length}</span>
                 </div>

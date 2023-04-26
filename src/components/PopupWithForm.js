@@ -1,5 +1,11 @@
-function PopupWithForm({title, name, children, buttonText, isOpen, onClose}) {
+function PopupWithForm({title, name, children, buttonText, isOpen, onClose, onSubmit}) {
     const popupClassName = `popup ${isOpen ? 'popup_opened' : ''}`;
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        onSubmit();
+    }
+
     return (
         <div className={popupClassName} id={name}>
             <div className="popup__container">
@@ -7,12 +13,12 @@ function PopupWithForm({title, name, children, buttonText, isOpen, onClose}) {
                 <div className="popup__content">
                     <div className="card card_with-shadow form">
                         <h2 className="form__title">{title}</h2>
-                        <form className="form__form" name={name}>
+                        <form className="form__form" name={name} onSubmit={handleSubmit}>
                             <fieldset className="form__user-info">
                                 {children}
                             </fieldset>
                             <button className="form__save" type="submit">{buttonText}</button>
-                        </form>
+                            </form>
                     </div>
                 </div>
             </div>

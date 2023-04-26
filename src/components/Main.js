@@ -4,20 +4,9 @@ import Card from "./Card";
 import pencil from "../images/change.svg";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Main({ cards,onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDisLike, onCardDelete }) {
-    // const [cards, setCards] = useState([]);
+function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDisLike, onCardDelete }) {
     const currentUser = useContext(CurrentUserContext);
 
-    // useEffect(() => {
-    //     api
-    //         .getInitialCards()
-    //         .then((data) => {
-    //             setCards(data);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-    // }, []);
 
     return (
         <main>

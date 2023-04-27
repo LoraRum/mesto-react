@@ -3,11 +3,11 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
-
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -27,7 +27,6 @@ function App() {
                 console.log(`Error retrieving data: ${error}`);
             });
     }, []);
-
 
     function handleEditProfileClick() {
         setEditProfilePopupOpen(true);
@@ -73,7 +72,9 @@ function App() {
     function handleCardDelete(cardId) {
         api.removeCard(cardId)
             .then(() => {
-                setCards((cards) => cards.filter((card) => card._id !== cardId));
+                setCards((cards) =>
+                    cards.filter((card) => card._id !== cardId)
+                );
             })
             .catch((error) => {
                 console.log(error);
@@ -91,12 +92,22 @@ function App() {
             });
     }
 
+    function handleUpdateAvatar(avatar) {
+        api.editAvatar(avatar)
+            .then((userData) => {
+                setCurrentUser(userData);
+                closeAllPopups();
+            })
+            .catch((error) => {
+                console.log(`Error updating avatar: ${error}`);
+            });
+    }
 
     return (
         <div className="body">
             <div className="page">
                 <CurrentUserContext.Provider value={currentUser}>
-                    <Header/>
+                    <Header />
                     <Main
                         cards={cards}
                         onEditProfile={handleEditProfileClick}
@@ -106,40 +117,31 @@ function App() {
                         onCardLike={handleCardLike}
                         onCardDelete={handleCardDelete}
                         onCardDisLike={handleCardDisLike}
-
                     />
-                    <Footer/>
+                    <Footer />
 
-                    <PopupWithForm
-                        title={'Обновить аватар'}
-                        name={'popup-change-avatar'}
-                        buttonText={'Сохранить'}
+                    <EditAvatarPopup
                         isOpen={isEditAvatarPopupOpen}
-                        onClose={() => closeAllPopups(false)}
-                    >
-                        <input
-                            className="input input_type_link"
-                            id="avatar"
-                            placeholder="Введите ссылку на аватар"
-                            required
-                            type="url"
-                        />
-                        <span className="avatar-error popup__input-error"></span>
-                    </PopupWithForm>
+                        onClose={closeAllPopups}
+                        onUpdateAvatar={handleUpdateAvatar}
+                    />
 
                     <PopupWithForm
-                        title={'Вы уверены?'}
-                        name={'popup-delete-card'}
-                        buttonText={'Да'}
-                    >
-                    </PopupWithForm>
+                        title={"Вы уверены?"}
+                        name={"popup-delete-card"}
+                        buttonText={"Да"}
+                    ></PopupWithForm>
 
-                    <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+                    <EditProfilePopup
+                        isOpen={isEditProfilePopupOpen}
+                        onClose={closeAllPopups}
+                        onUpdateUser={handleUpdateUser}
+                    />
 
                     <PopupWithForm
-                        title={'Новое место'}
-                        name={'popup-new-place'}
-                        buttonText={'Создать'}
+                        title={"Новое место"}
+                        name={"popup-new-place"}
+                        buttonText={"Создать"}
                         isOpen={isAddPlacePopupOpen}
                         onClose={() => closeAllPopups(false)}
                     >
@@ -166,10 +168,7 @@ function App() {
                         <span className="link-error popup__input-error"></span>
                     </PopupWithForm>
 
-                    <ImagePopup
-                        card={selectedCard}
-                        onClose={closeAllPopups}
-                    />
+                    <ImagePopup card={selectedCard} onClose={closeAllPopups} />
                 </CurrentUserContext.Provider>
             </div>
         </div>

@@ -1,12 +1,19 @@
-import React, {useState, useEffect, useContext} from "react";
-import api from "../utils/Api";
+import React, { useContext } from "react";
 import Card from "./Card";
 import pencil from "../images/change.svg";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDisLike, onCardDelete }) {
+function Main({
+    cards,
+    onEditProfile,
+    onAddPlace,
+    onEditAvatar,
+    onCardClick,
+    onCardLike,
+    onCardDisLike,
+    onCardDelete,
+}) {
     const currentUser = useContext(CurrentUserContext);
-
 
     return (
         <main>
@@ -32,7 +39,9 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
                     </button>
                     <div className="profile__date">
                         <div className="profile__info">
-                            <h1 className="profile__title">{currentUser.name}</h1>
+                            <h1 className="profile__title">
+                                {currentUser.name}
+                            </h1>
                             <button
                                 onClick={onEditProfile}
                                 aria-label="изменить данные пользоватедя"

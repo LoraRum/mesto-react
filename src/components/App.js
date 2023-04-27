@@ -54,20 +54,28 @@ function App() {
 
     function handleCardLike(card) {
         const isLiked = card.likes.some((i) => i._id === currentUser._id);
-        api.likeCard(card._id, !isLiked).then((newCard) => {
-            setCards((state) =>
-                state.map((c) => (c._id === card._id ? newCard : c))
-            );
-        });
+        api.likeCard(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) =>
+                    state.map((c) => (c._id === card._id ? newCard : c))
+                );
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     function handleCardDisLike(card) {
         const isLiked = card.likes.some((i) => i._id === currentUser._id);
-        api.dislikeCard(card._id, isLiked).then((newCard) => {
-            setCards((state) =>
-                state.map((c) => (c._id === card._id ? newCard : c))
-            );
-        });
+        api.dislikeCard(card._id, isLiked)
+            .then((newCard) => {
+                setCards((state) =>
+                    state.map((c) => (c._id === card._id ? newCard : c))
+                );
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     function handleCardDelete(cardId) {
@@ -116,9 +124,9 @@ function App() {
     }
 
     return (
-        <div className="body">
-            <div className="page">
-                <CurrentUserContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={currentUser}>
+            <div className="body">
+                <div className="page">
                     <Header />
                     <Main
                         cards={cards}
@@ -157,9 +165,9 @@ function App() {
                     />
 
                     <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-                </CurrentUserContext.Provider>
+                </div>
             </div>
-        </div>
+        </CurrentUserContext.Provider>
     );
 }
 
